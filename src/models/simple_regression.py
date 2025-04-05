@@ -49,6 +49,9 @@ class SimpleRegression:
             X = np.array([data[i:i+window_size] for i in range(len(data) - window_size)])
             y = np.array([data[i+window_size] for i in range(len(data) - window_size)])
             
+            # Clamp the input data to a reasonable range to avoid issues with large or infinite values
+            X = np.clip(X, a_min=-1e6, a_max=1e6)
+            
             random_indexes = np.random.permutation(len(X))[:100]
             X = X[random_indexes]
             y = y[random_indexes]
@@ -59,13 +62,18 @@ class SimpleRegression:
             # predict the target column
             last_window = data[-window_size:]
             last_window = np.array(last_window).reshape(1, -1)
+            predictions = []
             for i in range(len(input_data)):
-                last_window = np.array(last_window).reshape(1, -1)
+                # Clamp the last_window to a reasonable range before prediction
+                last_window = np.clip(last_window, a_min=-1e6, a_max=1e6)
                 prediction = self.model.predict(last_window)
-                df_result.loc[input_data.index[i], target_column] = prediction[0]
-                last_window = np.append(last_window[0][1:], prediction[0])
+                prediction = np.clip(prediction, a_min=-1e5, a_max=1e6)
+                predictions.append(prediction[0])
+                last_window = np.roll(last_window, -1)
+                last_window[0, -1] = prediction[0]
+            
+            df_result[target_column] = predictions
             
         return df_result
-        
-        
-        
+
+
