@@ -7,17 +7,10 @@ class Dataset:
                  ):
         
         spv_data_path = join(data_path, 'spv_ec00_forecasts_es_it.xlsx')
-        og_metering_data_path_spain = join(data_path, 'historical_metering_data_ES.csv')
-        og_metering_data_path_italy = join(data_path, 'historical_metering_data_IT.csv')
-        og_rollout_data_path_spain = join(data_path, 'rollout_data_ES.csv')
-        og_rollout_data_path_italy = join(data_path, 'rollout_data_IT.csv')
-
-
-        metering_data_path_spain = join(data_path, 'imputed_ES_usage.csv')
-        metering_data_path_italy = join(data_path, 'imputed_IT_usage.csv')
-        rollout_data_path_spain = join(data_path, 'imputed_ES_rollout.csv')
-        rollout_data_path_italy = join(data_path, 'imputed_IT_rollout.csv') 
-
+        metering_data_path_spain = join(data_path, 'historical_metering_data_ES.csv')
+        metering_data_path_italy = join(data_path, 'historical_metering_data_IT.csv')
+        rollout_data_path_spain = join(data_path, 'rollout_data_ES.csv')
+        rollout_data_path_italy = join(data_path, 'rollout_data_IT.csv')
         holiday_data_path_spain = join(data_path, 'holiday_ES.xlsx')
         holiday_data_path_italy = join(data_path, 'holiday_IT.xlsx')
         
@@ -33,12 +26,6 @@ class Dataset:
         self.rollout_data_italy = pd.read_csv(rollout_data_path_italy)
         self.holiday_data_spain = pd.read_excel(holiday_data_path_spain)
         self.holiday_data_italy = pd.read_excel(holiday_data_path_italy)
-
-        # Add the DATETIME column from og metering data to the imputed data
-        self.metering_data_spain['DATETIME'] = pd.read_csv(og_metering_data_path_spain)['DATETIME']
-        self.metering_data_italy['DATETIME'] = pd.read_csv(og_metering_data_path_italy)['DATETIME']
-        self.rollout_data_spain['DATETIME'] = pd.read_csv(og_rollout_data_path_spain)['DATETIME']
-        self.rollout_data_italy['DATETIME'] = pd.read_csv(og_rollout_data_path_italy)['DATETIME']
         
         # convert the datetime to datetime
         self.spv_data_es['DATETIME'] = pd.to_datetime(self.spv_data_es['DATETIME'])
