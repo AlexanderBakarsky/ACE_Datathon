@@ -55,7 +55,7 @@ def mean_imputation(df_dense, df_sparse):
 def normalize(v):
     return v / np.linalg.norm(v)
 
-def hot_deck_imputation(df_dense, df_sparse, k=1):
+def hot_deck_imputation(df_dense, df_sparse, k=3):
     dense_array = df_dense.to_numpy()
     sparse_cols = df_sparse.columns
     sparse_array = df_sparse.to_numpy()
